@@ -325,6 +325,21 @@ Beta skills use a `-beta` suffix and `disable-model-invocation: true` to prevent
 
 When modifying a skill that has a `-beta` counterpart (or vice versa), always check the other version and **state your sync decision explicitly** before committing — e.g., "Propagated to beta — shared test guidance" or "Not propagating — this is the experimental delegate mode beta exists to test." Syncing to both, stable-only, and beta-only are all valid outcomes. The goal is deliberate reasoning, not a default rule.
 
+## Skill Documentation
+
+Many skills have a user-facing doc at `docs/skills/<skill>.md` (repo-root `docs/`, not under `plugins/`) that explains the skill's high-level purpose, novel mechanics, and chain position — separate from the runtime SKILL.md. The `docs/skills/README.md` index lists all documented skills grouped by category.
+
+When modifying such a skill, **state your skill-doc sync decision explicitly** before committing — e.g., "doc updated — added new framing for surprise-me mode" or "doc not updated — change is internal to Phase 2, doesn't surface at doc level." **Most changes don't warrant an update**: internal phase refactors, prompt-tuning, and mechanic-level bug fixes typically don't surface at the doc's level of abstraction.
+
+Update the skill doc when:
+
+- The skill's high-level purpose or framing has shifted
+- A highlighted novel mechanic changed materially or was removed
+- A new mechanic emerged that belongs in "What Makes It Novel"
+- The doc's quick example, FAQ, or use cases would mislead a reader
+
+Edit just the parts that became inaccurate; don't rewrite to match SKILL.md. Skills without a doc need no check — creating one is a deliberate decision, not a reflexive one. When adding a doc for a skill that didn't have one, also link it from the skill's row in `plugins/compound-engineering/README.md` and add it to the appropriate category in `docs/skills/README.md`.
+
 ## Documented Solutions
 
 `docs/solutions/` holds documented solutions to past problems — bugs, architecture patterns, design patterns, tooling decisions, conventions, workflow practices, and other institutional knowledge. Entries use YAML frontmatter with fields including `module`, `tags`, and `problem_type`. Knowledge-track `problem_type` values are `architecture_pattern`, `design_pattern`, `tooling_decision`, `convention`, `workflow_issue`, `developer_experience`, `documentation_gap`, and `best_practice` (fallback). Bug-track values cover `build_error`, `test_failure`, `runtime_error`, `performance_issue`, `database_issue`, `security_issue`, `ui_bug`, `integration_issue`, and `logic_error`. Search this directory before designing new solutions so institutional memory compounds across changes.
