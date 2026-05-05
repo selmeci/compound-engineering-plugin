@@ -39,10 +39,12 @@ CE skills installed under \`~/.hermes/skills/\` follow these conventions:
 
 - **Blocking questions.** Several CE workflows (\`/ce-work\`, \`/ce-plan\`,
   \`/ce-brainstorm\`, \`/ce-doc-review\`, \`git-commit-push-pr\`, etc.) pause
-  to ask the user a question. Hermes has no dedicated blocking-question
-  primitive, so each skill renders its options as a numbered list in the
-  active conversation channel and waits for the user's reply. Reply with
-  the letter or label to continue.
+  to ask the user a question. Hermes provides the \`clarify\` tool for this
+  — it supports multiple choice (up to 4 options + "Other") and open-ended
+  questions. Skills use \`clarify\` when available; fall back to numbered
+  options in chat only when \`clarify\` is unavailable or the question is
+  genuinely open-ended. Reply with the letter, label, or free text to
+  continue.
 
 - **Slash commands.** Skill bodies may reference \`/ce-plan\`, \`/ce-work\`,
   etc. These resolve to skills installed under

@@ -14,7 +14,7 @@ The document is short and structured on purpose. Good answers to a handful of sh
 
 ## Interaction Method
 
-Default to the platform's blocking question tool: `AskUserQuestion` in Claude Code (call `ToolSearch` with `select:AskUserQuestion` first if its schema isn't loaded), `request_user_input` in Codex, `ask_user` in Gemini, `ask_user` in Pi (requires the `pi-ask-user` extension). Fall back to numbered options in chat only when no blocking tool exists in the harness or the call errors (e.g., Codex edit modes) — not because a schema load is required. Never silently skip the question.
+Default to the platform's blocking question tool: `AskUserQuestion` in Claude Code (call `ToolSearch` with `select:AskUserQuestion` first if its schema isn't loaded), `request_user_input` in Codex, `ask_user` in Gemini, `ask_user` in Pi (requires the `pi-ask-user` extension), `clarify` in Hermes Agent. Fall back to numbered options in chat only when no blocking tool exists in the harness or the call errors (e.g., Codex edit modes) — not because a schema load is required. Never silently skip the question.
 
 Ask one question at a time. Prefer free-form responses for the substantive sections (problem, approach, persona); reserve single-select for routing decisions (which section to revisit). Each option label must be self-contained.
 
@@ -68,7 +68,7 @@ Read the existing `STRATEGY.md` thoroughly. Summarize current state in 3-5 lines
 
 If the argument named a specific section, jump to that section in `references/interview.md`. Preserve all other sections exactly. Apply pushback as if this were a first run - do not rubber-stamp existing weak content just because it is already written.
 
-If no specific target, ask the user which section to revisit using the blocking question tool. Options:
+If no specific target, ask the user which section to revisit using the blocking question tool (`AskUserQuestion`, `request_user_input`, `ask_user`, or `clarify`). Options:
 
 - "Target problem"
 - "Our approach"

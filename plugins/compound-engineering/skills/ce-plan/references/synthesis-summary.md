@@ -182,7 +182,7 @@ When the soft-cut fires, use the platform's blocking question tool with two opti
 - `Proceed with the current revised synthesis`
 - `Stop and redirect — discuss further before [research / plan-write]`
 
-Fall back to numbered list in chat only when no blocking tool exists or the call errors. Never silently skip.
+Fall back to numbered list in chat only when no blocking tool (including `clarify`) exists or the call errors. Never silently skip.
 
 ---
 
