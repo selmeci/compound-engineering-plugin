@@ -60,6 +60,19 @@ const detectableTools: DetectableTool[] = [
     ],
   },
   {
+    name: "hermes",
+    // Probe for the `config.yaml` file (proves Hermes was actually run), not
+    // just the `~/.hermes/` directory. A stale empty directory left over from
+    // an uninstalled product would otherwise produce a false positive.
+    // Both home- and cwd-rooted Hermes installs are detected (parity with
+    // gemini/kiro detectors) — `<cwd>/.hermes/config.yaml` indicates a
+    // project-rooted Hermes install.
+    detectPaths: (home, cwd) => [
+      path.join(home, ".hermes", "config.yaml"),
+      path.join(cwd, ".hermes", "config.yaml"),
+    ],
+  },
+  {
     name: "kiro",
     detectPaths: (home, cwd) => [
       path.join(home, ".kiro"),
