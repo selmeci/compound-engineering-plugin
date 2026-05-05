@@ -1,3 +1,15 @@
+# Compound Engineering — Hermes Fork
+
+> **Tento fork prináša plnú podporu pre [Hermes Agent](https://hermes-agent.nousresearch.com/).**
+>
+> Pôvodný upstream je [EveryInc/compound-engineering-plugin](https://github.com/EveryInc/compound-engineering-plugin). Tento fork rozširuje CLI konvertor a plugin manifesty tak, aby Compound Engineering skills a agenti fungovali natívne v Hermes prostredí — vrátane delegácie cez `delegate_task`, cron jobov, a autonómnych workflowov.
+>
+> Hermes inštalácia: `bunx @every-env/compound-plugin install compound-engineering --to hermes`
+>
+> Pre všetky ostatné platformy (Claude Code, Codex, Cursor, ...) pokračuj nižšie — inštalácia zostáva rovnaká.
+
+---
+
 # Compound Engineering
 
 [![Build Status](https://github.com/EveryInc/compound-engineering-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/EveryInc/compound-engineering-plugin/actions/workflows/ci.yml)
@@ -366,11 +378,9 @@ bunx @every-env/compound-plugin cleanup --target qwen
 
 Codex native plugin install currently handles skills, not custom agents. The documented Bun followup is required until Codex supports agents in its native plugin spec.
 
-> **Agents on Hermes:** CE agents map to Hermes' `delegate_task` primitive (parallel sub-agents with isolated contexts). Commands still map to skills. See `docs/specs/hermes.md` for details.
+> **Agents on Hermes:** CE agents map natively to Hermes' `delegate_task` primitive (parallel sub-agents with isolated contexts). Commands map to skills. This fork maintains full Hermes compatibility as a first-class target.
 
-OpenCode, Pi, Gemini, Kiro, and Hermes installs are converter-backed and may change as those target formats evolve. The Hermes target is new in 2026-05; CE workflows that rely on Claude Code's interactive UX (`/ce-work`, `git-commit-push-pr`, any `AskUserQuestion`-driven prompt) will degrade silently on Hermes' autonomous runtime — see `docs/specs/hermes.md` for the documented gap list.
-
-Release versions are owned by release automation. Routine feature PRs should not hand-bump plugin or marketplace manifest versions.
+OpenCode, Pi, Gemini, and Kiro installs are converter-backed and may change as those target formats evolve. Release versions are owned by release automation. Routine feature PRs should not hand-bump plugin or marketplace manifest versions.
 
 ## FAQ
 
