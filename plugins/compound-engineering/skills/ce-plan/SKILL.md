@@ -16,7 +16,7 @@ This workflow produces a durable implementation plan. It does **not** implement 
 
 ## Interaction Method
 
-When asking the user a question, use the platform's blocking question tool: `AskUserQuestion` in Claude Code (call `ToolSearch` with `select:AskUserQuestion` first if its schema isn't loaded), `request_user_input` in Codex, `ask_user` in Gemini, `ask_user` in Pi (requires the `pi-ask-user` extension). Fall back to numbered options in chat only when no blocking tool exists in the harness or the call errors (e.g., Codex edit modes) — not because a schema load is required. Never silently skip the question.
+When asking the user a question, use the platform's blocking question tool: `AskUserQuestion` in Claude Code (call `ToolSearch` with `select:AskUserQuestion` first if its schema isn't loaded), `request_user_input` in Codex, `ask_user` in Gemini, `ask_user` in Pi (requires the `pi-ask-user` extension), `clarify` in Hermes Agent. Fall back to numbered options in chat only when no blocking tool exists in the harness or the call errors (e.g., Codex edit modes) — not because a schema load is required. Never silently skip the question.
 
 Ask one question at a time. Prefer a concise single-select choice when natural options exist.
 
@@ -95,7 +95,7 @@ Before asking planning questions, search `docs/brainstorms/` for files matching 
 - It was created within the last 30 days (use judgment to override if the document is clearly still relevant or clearly stale)
 - It appears to cover the same user problem or scope
 
-If multiple source documents match, ask which one to use using the platform's blocking question tool when available (see Interaction Method). Otherwise, present numbered options in chat and wait for the user's reply before proceeding.
+If multiple source documents match, ask which one to use using the platform's blocking question tool when available (see Interaction Method), `clarify` in Hermes Agent. Otherwise, present numbered options in chat and wait for the user's reply before proceeding.
 
 #### 0.3 Use the Source Document as Primary Input
 
@@ -162,7 +162,7 @@ If the origin document contains `Resolve Before Planning` or similar blocking qu
 
 If true product blockers remain:
 - Surface them clearly
-- Ask the user, using the platform's blocking question tool when available (see Interaction Method), whether to:
+- Ask the user, using the platform's blocking question tool when available (see Interaction Method), `clarify` in Hermes Agent, whether to:
   1. Resume `ce-brainstorm` to resolve them
   2. Convert them into explicit assumptions or decisions and continue
 - Do not continue planning while true blockers remain unresolved
@@ -315,7 +315,7 @@ For each question, decide whether it should be:
 - **Resolved during planning** - the answer is knowable from repo context, documentation, or user choice
 - **Deferred to implementation** - the answer depends on code changes, runtime behavior, or execution-time discovery
 
-Ask the user only when the answer materially affects architecture, scope, sequencing, or risk and cannot be responsibly inferred. Use the platform's blocking question tool when available (see Interaction Method).
+Ask the user only when the answer materially affects architecture, scope, sequencing, or risk and cannot be responsibly inferred. Use the platform's blocking question tool when available (see Interaction Method), `clarify` in Hermes Agent.
 
 **Do not** run tests, build the app, or probe runtime behavior in this phase. The goal is a strong plan, not partial execution.
 
@@ -888,7 +888,7 @@ When deepening is warranted, read `references/deepening-workflow.md` for confide
 
 **STOP. Load `references/plan-handoff.md` now before continuing.** It carries the full instructions for 5.3.8 (document review), 5.3.9 (final checks and cleanup), and 5.4 (post-generation handoff, including the Proof HITL flow, post-HITL re-review, and Issue Creation branching). **This load is non-optional** — without it, the agent renders the post-generation menu, captures the user's selection, and stops without firing the routed action. Document review at 5.3.8 is also mandatory regardless of whether the confidence check already ran.
 
-After document review and final checks, present this menu using the platform's blocking question tool: `AskUserQuestion` in Claude Code (call `ToolSearch` with `select:AskUserQuestion` first if its schema isn't loaded), `request_user_input` in Codex, `ask_user` in Gemini, `ask_user` in Pi (requires the `pi-ask-user` extension). Fall back to numbered options in chat only when no blocking tool exists in the harness or the call errors (e.g., Codex edit modes) — not because a schema load is required. Never silently skip the question.
+After document review and final checks, present this menu using the platform's blocking question tool: `AskUserQuestion` in Claude Code (call `ToolSearch` with `select:AskUserQuestion` first if its schema isn't loaded), `request_user_input` in Codex, `ask_user` in Gemini, `ask_user` in Pi (requires the `pi-ask-user` extension), `clarify` in Hermes Agent. Fall back to numbered options in chat only when no blocking tool exists in the harness or the call errors (e.g., Codex edit modes) — not because a schema load is required. Never silently skip the question.
 
 **Question:** "Plan ready at `<absolute path to plan>`. What would you like to do next?" (use absolute path so the reference is clickable in modern terminals)
 
@@ -901,7 +901,7 @@ After document review and final checks, present this menu using the platform's b
 **Routing.** Act on the user's selection — do not just announce it. Elaborate sub-flows (Proof HITL state machine, Issue Creation tracker detection, post-HITL resync) live in `references/plan-handoff.md`.
 
 - **Start `/ce-work`** — Invoke the `ce-work` skill via the platform's skill-invocation primitive (`Skill` in Claude Code, `Skill` in Codex, the equivalent on Gemini/Pi), passing the plan path as the skill argument. Do not merely tell the user to type `/ce-work` — fire the invocation now so the plan executes in this session.
-- **Create Issue** — Detect the project tracker (`gh` for GitHub, `linear` for Linear) and create the issue from the plan file as described under "Issue Creation" in `references/plan-handoff.md`. After creation, display the issue URL and ask whether to proceed to `/ce-work` via the platform's blocking question tool.
+- **Create Issue** — Detect the project tracker (`gh` for GitHub, `linear` for Linear) and create the issue from the plan file as described under "Issue Creation" in `references/plan-handoff.md`. After creation, display the issue URL and ask whether to proceed to `/ce-work` via the platform's blocking question tool, `clarify` in Hermes Agent.
 - **Open in Proof (web app) — review and comment to iterate with the agent** — Load the `ce-proof` skill in HITL-review mode with the plan file as `source file`, the plan title as `doc title`, identity `ai:compound-engineering` / `Compound Engineering`, and recommended next step `/ce-work`. Then follow the post-HITL resync logic in `references/plan-handoff.md`, which handles the four `ce-proof` return statuses, re-runs `ce-doc-review` after material edits, and falls back gracefully on upload failure.
 - **Done for now** — Display a brief confirmation that the plan file is saved and end the turn. Do not start follow-up work without an explicit further user prompt.
 
