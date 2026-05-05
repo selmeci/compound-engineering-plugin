@@ -84,6 +84,7 @@ Determine how to proceed based on what was provided in `<input_document>`.
    Derive the new name from the plan title or work description (e.g., `feat/crowd-sniff`). Present the rename as a recommended option alongside continuing as-is.
 
    Then ask: "Continue working on `[current_branch]`, or create a new branch?"
+   - Use the platform's blocking question tool (`AskUserQuestion` in Claude Code (call `ToolSearch` with `select:AskUserQuestion` first if its schema isn't loaded), `request_user_input` in Codex, `ask_user` in Gemini, `ask_user` in Pi (requires the `pi-ask-user` extension), `clarify` in Hermes Agent)
    - If continuing (with or without rename), proceed to step 3
    - If creating new, follow Option A or B below
 
