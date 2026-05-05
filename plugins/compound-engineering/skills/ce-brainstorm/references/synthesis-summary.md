@@ -101,7 +101,7 @@ The test: a scanner reading a bullet should affirm or reject it on product / sco
 
 Track which Stated/Inferred/Out items the user touched per round. The soft-cut blocking question fires **only when the same item is revised twice** (or a third-round revision targets an item already revised in round two). New-item revisions across rounds proceed without limit — revising different aspects of a wrong synthesis (e.g., user pushed back on Stated, then on Inferred) is exactly what the mechanism should support.
 
-When the soft-cut fires, use the platform's blocking question tool (`AskUserQuestion` in Claude Code, `request_user_input` in Codex, `ask_user` in Gemini, `ask_user` in Pi) with two options:
+When the soft-cut fires, use the platform's blocking question tool (`AskUserQuestion` in Claude Code, `request_user_input` in Codex, `ask_user` in Gemini, `ask_user` in Pi, `clarify` in Hermes Agent) with two options:
 
 - `Proceed with the current revised synthesis`
 - `Stop and redirect — discuss further before writing the doc`
