@@ -1,12 +1,12 @@
 # Compound Engineering — Hermes Fork
 
-> **Tento fork prináša plnú podporu pre [Hermes Agent](https://hermes-agent.nousresearch.com/).**
+> **This fork adds first-class support for [Hermes Agent](https://hermes-agent.nousresearch.com/).**
 >
-> Pôvodný upstream je [EveryInc/compound-engineering-plugin](https://github.com/EveryInc/compound-engineering-plugin). Tento fork rozširuje CLI konvertor a plugin manifesty tak, aby Compound Engineering skills a agenti fungovali natívne v Hermes prostredí — vrátane delegácie cez `delegate_task`, cron jobov, a autonómnych workflowov.
+> Original upstream: [EveryInc/compound-engineering-plugin](https://github.com/EveryInc/compound-engineering-plugin). This fork extends the CLI converter and plugin manifests so that Compound Engineering skills and agents work natively in the Hermes environment — including delegation via `delegate_task`, cron jobs, and autonomous workflows.
 >
-> Hermes inštalácia: `bunx @every-env/compound-plugin install compound-engineering --to hermes`
+> Hermes install: `bunx @every-env/compound-plugin install compound-engineering --to hermes`
 >
-> Pre všetky ostatné platformy (Claude Code, Codex, Cursor, ...) pokračuj nižšie — inštalácia zostáva rovnaká.
+> For all other platforms (Claude Code, Codex, Cursor, ...) continue below — installation remains unchanged.
 
 ---
 
