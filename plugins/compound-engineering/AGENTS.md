@@ -168,8 +168,8 @@ Keep rationale at the highest-level location that covers it; restate behavioral 
 
 ### Cross-Platform User Interaction
 
-- [ ] When a skill needs to ask the user a question, instruct use of the platform's blocking question tool and name the known equivalents (`AskUserQuestion` in Claude Code, `request_user_input` in Codex, `ask_user` in Gemini, `ask_user` in Pi via the `pi-ask-user` extension)
-- [ ] For Claude Code, also instruct to load `AskUserQuestion` via `ToolSearch` with `select:AskUserQuestion` first if its schema isn't already loaded — `AskUserQuestion` is a deferred tool and won't be available at session start. A pending schema load is not a valid reason to fall back to text.
+- [ ] When a skill needs to ask the user a question, instruct use of the platform's blocking question tool and name the known equivalents (`AskUserQuestion` in Claude Code, `request_user_input` in Codex, `ask_user` in Gemini, `ask_user` in Pi via the `pi-ask-user` extension, `clarify` in Hermes Agent)
+- [ ] For Claude Code, also instruct to load `AskUserQuestion` via `ToolSearch` with `select:AskUserQuestion` first if its schema isn't already loaded — `AskUserQuestion` is a deferred tool and won't be available at session start. A pending schema load is not a valid reason to fall back to text. For Hermes Agent, `clarify` is not deferred and needs no preload.
 - [ ] Include a fallback: when no blocking tool exists in the harness or the call errors (e.g., Codex edit modes where `request_user_input` is unavailable, or `ToolSearch` returns no match), present numbered options in chat and wait for the user's reply — never silently skip the question.
 - [ ] **Narrow exception for legitimate option overflow:** when a menu has 5 or more genuinely relevant options — each a distinct destination or workflow, none removable without losing real user choice — render as a numbered list in chat rather than trimming to fit the 4-option cap. This is used with restraint, not as a convenience escape from the blocking tool. Default remains the blocking tool. Before invoking the exception, verify that (a) no option can be cut, (b) no two options can be merged, and (c) no option is better surfaced as contextual prose (e.g., a nudge adjacent to the menu). If any of those reductions work, prefer them over the fallback. When the exception applies, include a hint that free-form input is accepted (e.g., "Pick a number or describe what you want.") so the numbered list retains the blocking tool's open-endedness.
 
@@ -177,7 +177,7 @@ Keep rationale at the highest-level location that covers it; restate behavioral 
 
 ### Interactive Question Tool Design
 
-Design rules for blocking question menus (`AskUserQuestion` / `request_user_input` / `ask_user`). Violations silently degrade the UX in harnesses where secondary description text is hidden or labels are truncated.
+Design rules for blocking question menus (`AskUserQuestion` / `request_user_input` / `ask_user` / `clarify`). Violations silently degrade the UX in harnesses where secondary description text is hidden or labels are truncated.
 
 - [ ] Each option label must be self-contained — some harnesses render only the label, not the accompanying description; the label alone must convey what the option does
 - [ ] Keep total options to 4 or fewer (`AskUserQuestion` caps at 4 across platforms we target)
